@@ -8,42 +8,45 @@ var Cart = require('../modals/cart');
 var Review = require('../modals/review');
 var isbn = "";
 var cartMain = "";
-var cartCount = 0;
+
 var user = "";
 
 router.get('', ensureAuthenticated, function (req,res) {
+    var cartCount = 0;
     var p = req.query.isbn;
     var isbn = p;
     var ronline = false;
     user = req.user;
-    Cart.getCart(req.user._id, function (err, cart) {
+    Cart.getCart(user._id, function (err, cart) {
         req.cart = cart;
         cartMain = cart;
-    });
-    Book.getBookByISBN(req.query.isbn, function (err, book) {
-        if (err) throw err;
-        //console.log(book);
-        if(book.price == "0.00"){
-            ronline = true;
-        }
-        if(cartMain){
-            cartCount = cartMain.products.length;
-        }
-        updateRating(req.query.isbn,book);
-        res.render('book',{
-            _id: book._id,
-            title: book.title,
-            author: book.author,
-            genre: book.genre,
-            isbn: book.isbn,
-            publisher: book.publisher,
-            price: book.price,
-            imagelink: book.imagelink,
-            reviews: book.reviews,
-            readOnline : ronline,
-            cartcount: cartCount
+        Book.getBookByISBN(req.query.isbn, function (err, book) {
+            if (err) throw err;
+
+            if(book.price == "0.00"){
+                ronline = true;
+            }
+            if(cartMain){
+                cartCount = cartMain.products.length;
+            }
+            updateRating(req.query.isbn,book);
+            res.render('book',{
+                _id: book._id,
+                title: book.title,
+                author: book.author,
+                genre: book.genre,
+                isbn: book.isbn,
+                publisher: book.publisher,
+                price: book.price,
+                imagelink: book.imagelink,
+                reviews: book.reviews,
+                readlink: book.booklink,
+                readOnline : ronline,
+                cartcount: cartCount
+            });
         });
     });
+
 });
 
 router.post('/review', function (req, res) {
@@ -52,7 +55,7 @@ router.post('/review', function (req, res) {
         rating: req.body.rating,
         reviewBy: user.username
     });
-    //console.log("new review====="+user.username);
+
     Book.addReviewByISBN(req.body.isbn, newReview, function (err, book) {
         if (err) throw err;
         updateRating(req.body.isbn,book);

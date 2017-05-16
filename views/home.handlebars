@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid body-home">
     <div class="row">
         <div class="col-sm-7">
             <div class="jumbotron">
@@ -18,54 +18,75 @@
                 </div>
             </div>
             <div>
+                {{#if errorss}}
+
+                        <div class="alert alert-danger" style="float: left">{{errorss}}</div>
+
+                {{/if}}
                 {{#if errors}}
                     {{#each errors}}
-                        <div class="alert alert-danger" style="display: inline">{{msg}}</div>
+                        <div class="alert alert-danger" style="float: left">{{msg}}</div>
                     {{/each}}
                 {{/if}}
+
+                {{#if successmsg}}
+                    <div class="alert alert-success" style="float: left">{{successmsg}}</div>
+                {{/if}}
+
             </div>
         </div>
         <div class="col-sm-5">
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#login" aria-controls="home" role="tab" data-toggle="tab">Login</a></li>
-                    <li role="presentation"><a href="#register" aria-controls="profile" role="tab" data-toggle="tab">SignUp</a></li>
+                    <li role="presentation" class="active cus-font-home"><a href="#login" aria-controls="home" role="tab" data-toggle="tab">Login</a></li>
+                    <li role="presentation" class=" cus-font-home"><a href="#register" aria-controls="profile" role="tab" data-toggle="tab">SignUp</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="login">
 
-                        <form method="post" action="/login">
+                        <form method="post" action="/login" id="loginForm">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="username" placeholder="Username">
+                                <label for ="username">
+                                <input type="text" class="form-control" name="username" placeholder="Username" id="username">
+                                </label>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" name="password" placeholder="Password">
+                                <label for ="password">
+                                <input type="password" class="form-control" name="password" placeholder="Password" id="password">
+                                </label>
                             </div>
-                            <button type="submit" class="btn btn-success">Submit</button>
+                            <button type="button" class="btn btn-primary" onclick="performLogin()">Login</button>
                         </form>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="register">
-                        {{#if errors}}
-                            {{#each errors}}
-                                <div class="alert alert-danger">{{msg}}</div>
-                            {{/each}}
-                        {{/if}}
+
+
                         <form method="post" action="/register">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Name" name="name">
+                                <label for = "name">
+                                <input type="text" class="form-control" placeholder="Name" name="name" id="name">
+                                </label>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Username" name="username">
+                                <label for = "uname">
+                                <input type="text" class="form-control" placeholder="Username" name="username" id="uname">
+                                </label>
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Email" name="email">
+                                <label for ="email">
+                                <input type="email" class="form-control" placeholder="Email" name="email" id="email">
+                                </label>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Password" name="password">
+                                <label for ="password1">
+                                <input type="password" class="form-control" placeholder="Password" name="password" id="password1">
+                                </label>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Confirm Password" name="password2">
+                                <label for ="password2">
+                                <input type="password" class="form-control" placeholder="Confirm Password" name="password2" id="password2">
+                                </label>
                             </div>
                             <button type="submit" class="btn btn-success">Submit</button>
                         </form>

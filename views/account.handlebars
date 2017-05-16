@@ -1,0 +1,82 @@
+<div class="container-fluid">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bookreaper-navbar" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand custom-navbar" href="/">BookReaper</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bookreaper-navbar">
+
+
+
+
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/about" class="glyphicon glyphicon-info-sign"></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.name}} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/profile">Profile</a></li>
+                            <li><a href="/account">Acount</a></li>
+                            <li><a href="/orders">Orders</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div class="container-fluid">
+        <h2>Profile</h2>
+        <div class="row">
+            <div class="col-sm-3">
+
+
+            </div>
+            <div class="col-sm-6">
+                <div class="alert alert-success alertChangesSaved" role="alert" id="alertPasswordMessage">
+                    <strong>Password Changed</strong>
+                </div>
+                <form method="post" action="/account" id="changePasswordForm">
+
+                    <div class="form-group">
+                        <div class="profile-labels">New Password: </div><div class="profile-details"><input type="password" class="form-control" placeholder="New Password" name="newpass" value="" id="newpass"></div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="profile-labels">Confirm New Password: </div><div class="profile-details"><input type="password" class="form-control" placeholder="Confirm New Password" name="connewpass" value="" id="connewpass"></div>
+
+                    </div>
+                    <button type="button" class="btn btn-success" onclick="changePassword()">Change Password</button>
+                    <a type="button" class="btn btn-primary">Cancel</a>
+                </form>
+            </div>
+            <div class="col-sm-3">
+                {{#if error}}
+                <div class="alert alert-danger" role="alert" style="text-align: center"><strong>{{error}}</strong></div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    <div class="hiddenForm">
+        <form method="post" action="/shop" id="filterForm">
+            <input type="text" id="filter" name="filter" value=""/>
+            <input type="text" id="criteria" name="criteria" value="title"/>
+        </form>
+        <form method="post" action="/shop/addtocart" id="addtocartForm">
+            <input type="text" id="bookId" name="bookId" value=""/>
+        </form>
+        <form method="get" action="/profile" id="refreshForm">
+            <input type="text" name="saved" value="true"/>
+        </form>
+    </div>
+</div>

@@ -19,6 +19,15 @@ var UserSchema = Schema({
     },
     name:{
         type: String
+    },
+    address:{
+        type: String
+    },
+    cellphone:{
+        type: String
+    },
+    interests:{
+        type: String
     }
 });
 
@@ -31,6 +40,19 @@ module.exports.createUser = function (newUser, callback) {
         bcrypt.hash(newUser.password, salt, function (err, hash) {
             newUser.password = hash;
             newUser.save(callback);
+        });
+    });
+};
+
+//Change Password
+module.exports.changePassword = function (userId, newPassword, callback) {
+    User.findOne(userId).exec(function (err, user) {
+        bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(newPassword, salt, function (err, hash) {
+                if (err) throw err;
+                user.password = hash;
+                user.save(callback);
+            });
         });
     });
 };
@@ -53,4 +75,22 @@ module.exports.comparePassword = function (candidatePassword, hash, callback) {
 
 module.exports.getUserById = function(id, callback){
     User.findById(id, callback);
+};
+
+module.exports.updateImage = function (imgId,id, callback) {
+    var query = {_id: id};
+    User.update(query, {$set: {imgId: imgId}}, callback);
+};
+
+module.exports.updateUser =  function (user, callback) {
+    var query = {_id: user._id};
+    User.updateMany(query,
+        {$set: {
+            name: user.name,
+            username: user.username,
+            address: user.address,
+            cellphone:user.cellphone,
+            email: user.email,
+            interests: user.interests
+        }}, callback);
 };
