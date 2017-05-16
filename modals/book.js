@@ -39,6 +39,9 @@ var bookSchema = Schema({
             type: String
         }
     }],
+    booklink:{
+        type: String
+    },
     totalRating:{
         type: Number
     }
@@ -48,6 +51,11 @@ var Book = module.exports = mongoose.model('Book', bookSchema);
 
 module.exports.createBook = function (newBook, callback) {
     newBook.save(callback);
+};
+
+module.exports.getBookByID = function (id, callback) {
+    var query = {_id : id};
+    Book.findOne(query, callback);
 };
 
 module.exports.getBookByISBN = function (isbn, callback) {
@@ -82,9 +90,8 @@ module.exports.getBooksByPublisher = function (publisher, callback) {
 
 module.exports.addReviewByISBN = function (isbn, newReview, callback) {
     var query = {isbn: isbn};
-    //console.log(newReview);
+
     Book.findOne(query, callback).exec(function (err, book) {
-        //console.log(book);
         book.reviews.push(newReview);
         book.save(function (err) {
             if (!err){
@@ -93,7 +100,7 @@ module.exports.addReviewByISBN = function (isbn, newReview, callback) {
                     .populate('reviews.comment')
                     .populate('reviews.rating')
                     .populate('reviews.reviewBy').exec(function (err, book) {
-                        //console.log(book);
+
                 })
             }
         }, callback);
@@ -103,7 +110,6 @@ module.exports.addReviewByISBN = function (isbn, newReview, callback) {
 module.exports.getBooks = function (callback) {
 
     var books= Book.find(callback);
-    //console.log(books);
 };
 
 module.exports.getBooksByCriteria = function (criteria, keyword, callback) {

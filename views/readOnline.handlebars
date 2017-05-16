@@ -1,0 +1,64 @@
+<div class="container-fluid">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bookreaper-navbar" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand custom-navbar" href="/">BookReaper</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bookreaper-navbar">
+
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/about" class="glyphicon glyphicon-info-sign"></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.name}} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/profile">Profile</a></li>
+                            <li><a href="#">Acount</a></li>
+                            <li><a href="#">Orders</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-1">
+
+            </div>
+            <div class="col-sm-10">
+
+                <iframe src="{{readlink}}" width="400" height="300" class="bookframe">
+                    <p>Your browser does not support iframes.</p>
+                </iframe>
+
+            </div>
+            <div class="col-sm-1">
+
+            </div>
+        </div>
+    </div>
+    <div class="hiddenForm">
+        <form method="post" action="/shop" id="filterForm">
+            <input type="text" id="filter" name="filter" value=""/>
+            <input type="text" id="criteria" name="criteria" value="title"/>
+        </form>
+        <form method="post" action="/shop/addtocart" id="addtocartForm">
+            <input type="text" id="bookId" name="bookId" value=""/>
+        </form>
+        <form method="post" action="/readOnline" id="readOnlineForm">
+            <input name="booklink" type="text" value="{{readlink}}"/>
+        </form>
+    </div>
+</div>

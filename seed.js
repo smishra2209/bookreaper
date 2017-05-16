@@ -1,3 +1,57 @@
+/**
+ * Created by Suraj on 5/15/2017.
+ */
+var express = require('express');
+var mongoose = require('mongoose');
+var Schema   = mongoose.Schema;
+
+var bookSchema = Schema({
+    title:{
+        type: String,
+        index: true
+    },
+    author:{
+        type: String
+    },
+    genre:{
+        type: String
+    },
+    isbn:{
+        type: String
+    },
+    publisher:{
+        type: String
+    },
+    imagelink:{
+        type: String
+    },
+    price:{
+        type: String
+    },
+    reviews:[{
+        comment:{
+            type: String
+        },
+        rating:{
+            type: Number
+        },
+        reviewBy:{
+            type: String
+        }
+    }],
+    booklink:{
+        type: String
+    },
+    totalRating:{
+        type: Number
+    }
+});
+
+var Book = module.exports = mongoose.model('Book', bookSchema);
+
+mongoose.connect('mongodb://localhost/bookreaper');
+
+var Books = [
     {
         "title": "Follow You Home",
         "author": "Mark Edwards",
@@ -176,3 +230,19 @@
         "imagelink": "https://images-na.ssl-images-amazon.com/images/I/51fSRTNnqXL.jpg",
         "totalRating" : 5
     }
+];
+
+var seed = express();
+
+function seedBooks() {
+    for(var i=0; i<Books.length; i++){
+        var newBook = new Book(Books[i]);
+        newBook.save();
+    }
+    console.log('Database Seeded');
+    setTimeout(function () {
+        process.exit(1);
+    },2000);
+}
+
+seedBooks();

@@ -9,7 +9,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">BookReaper</a>
+                <a class="navbar-brand custom-navbar" href="/">BookReaper</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -30,22 +30,23 @@
 
                 <form class="navbar-form navbar-left" id="searchForm" onsubmit="callSearch();return false;">
                     <div class="form-group has-feedback has-feedback-right">
-
-                        <input type="text" class="form-control" placeholder="Search" id="searchKeyword">
+                        <label for="searchKeyword">
+                            <input type="text" class="form-control" placeholder="Search" id="searchKeyword">
+                        </label>
                         <i class="form-control-feedback glyphicon glyphicon-search"></i>
                     </div>
 
                 </form>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" class="glyphicon glyphicon-info-sign"></a></li>
-                    <li><a href="#" class="glyphicon glyphicon-shopping-cart"><span class="badge">{{cartcount}}</span></a></li>
+                    <li><a href="/about" class="glyphicon glyphicon-info-sign" data-toggle="tooltip"  title="About"> <span class="screen-reader-text"> about site </span></a></li>
+                    <li><a href="/cart" class="glyphicon glyphicon-shopping-cart" data-toggle="tooltip"  title="Cart" ><span class="screen-reader-text"> cart </span><span class="badge">{{cartcount}}</span></a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.name}} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Profile</a></li>
-                            <li><a href="#">Acount</a></li>
-                            <li><a href="#">Orders</a></li>
+                            <li><a href="/profile">Profile</a></li>
+                            <li><a href="/account">Account</a></li>
+                            <li><a href="/orders">Orders</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="/logout">Logout</a></li>
                         </ul>
@@ -57,7 +58,7 @@
     <div class="container-fluid">
         <div class="row vdivide">
             <div class="col-sm-2">
-                <ul class="nav nav-pills nav-stacked">
+                <ul class="nav nav-pills nav-stacked custom-nav">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Genres <span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -72,11 +73,11 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ratings <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">1</a></li>
+                            <li onclick="submitRatingFilter(5)"><a href="#">5</a></li>
+                            <li onclick="submitRatingFilter(4)"><a href="#">4</a></li>
+                            <li onclick="submitRatingFilter(3)"><a href="#">3</a></li>
+                            <li onclick="submitRatingFilter(2)"><a href="#">2</a></li>
+                            <li onclick="submitRatingFilter(1)"><a href="#">1</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -94,7 +95,9 @@
                         <div class="caption-up">
                             <a class="btn btn-primary" onclick="addToCart('{{_id}}')">Add to Cart</a>
                             {{#if readOnline}}
-                                <a class="btn btn-success">Read Online</a>
+                                <a class="btn btn-success" onclick="readOnline()">Read Online</a>
+                            {{else}}
+                                <a type="button" class="btn btn-success" href="/cart">Buy Now</a>
                             {{/if}}
 
                         </div>
@@ -102,16 +105,18 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="book-title-main"><h4>{{title}}</h4></div>
-                    <div class="book-author-main"><h5>{{author}}</h5></div>
-                    <div class="book-price-main"><h5>$ {{price}}</h5></div>
+                    <div class="book-title-main">{{title}}</div>
+                    <div class="book-author-main">-{{author}}</div>
+                    <div class="book-price-main">$ {{price}}</div>
 
                     <div class="panel panel-primary">
                         <div class="panel-heading"><strong>Add Review</strong></div>
                         <div class="panel-body">
                             <form method="post" action="/book/review">
                                 <div class="form-group">
-                                    <textarea class="form-control" id="reviewComment" placeholder="Add a review" name="reviewComment"></textarea>
+                                    <label for="reviewComment">
+                                    <textarea class="form-control" id="reviewComment" placeholder="Add a review (Optional)" name="reviewComment"></textarea>
+                                    </label>
                                 </div>
                                 <div class="form-group">
                                     <div class="btn-group" data-toggle="buttons">
@@ -156,9 +161,9 @@
                 <div class="col-sm-3">
                     <button type="button" class="btn btn-primary btn-block"  onclick="addToCart('{{_id}}')">Add to Cart</button>
                     {{#if readOnline}}
-                        <button type="button" class="btn btn-success btn-block">Read Online</button>
+                        <a type="button" class="btn btn-success btn-block" onclick="readOnline()">Read Online</a>
                     {{else}}
-                        <button type="button" class="btn btn-success btn-block">Buy Now</button>
+                        <a type="button" class="btn btn-success btn-block" href="/cart">Buy Now</a>
                     {{/if}}
                 </div>
 
@@ -172,6 +177,9 @@
         </form>
         <form method="post" action="/shop/addtocart" id="addtocartForm">
             <input type="text" id="bookId" name="bookId" value=""/>
+        </form>
+        <form method="post" action="/readOnline" id="readOnlineForm">
+            <input name="booklink" type="text" value="{{readlink}}"/>
         </form>
     </div>
 </div>

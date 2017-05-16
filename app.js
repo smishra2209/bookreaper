@@ -14,6 +14,7 @@ var cookieParser = require('cookie-parser');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var flash = require('connect-flash');
+var favicon = require('serve-favicon');
 
 //database connection to the "BOOKREAPER" DB
 mongoose.connect('mongodb://localhost/bookreaper');
@@ -24,6 +25,9 @@ var configRoutes = require('./routes');
 
 //Init App
 var app = express();
+
+// Changing favicon.ico
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 //Setting up secret key for password authentication
 app.use(session({
@@ -64,6 +68,12 @@ app.use(function (req, res, next) {
     res.locals.error = req.flash('error');
     res.locals.user = req.user || null;
     res.locals.cart = req.cart || null;
+    next();
+});
+
+// Handling Cache
+app.use(function (req, res, next) {
+    res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
     next();
 });
 

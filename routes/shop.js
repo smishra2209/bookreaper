@@ -11,24 +11,17 @@ var cartMain = "";
 var cartCount = 0;
 
 router.get('/', ensureAuthenticated,function(req, res){
-    console.log("Logged In");
-    //console.log(req.user);
-
     var bookList = "";
 
     Cart.getCart(req.user._id, function (err, cart) {
 
             req.cart = cart;
             cartMain = cart;
-            //console.log(cart);
-
     });
-    //console.log("Items in cart=================="+cartMain.length);
+
     Book.getBooks(function (err, books) {
         if(err) throw err;
-        //console.log(books);
         bookList = books;
-        //console.log(bookList);
         var len = false;
         if (bookList.length == 0){
             len = true;
@@ -68,7 +61,6 @@ router.post('/createBook',function (req,res) {
 
     Book.createBook(newBook, function (err, book) {
         if(err) throw err;
-        //console.log(book);
         res.send(book);
     });
 
@@ -81,7 +73,6 @@ router.post('/',function (req,res) {
         case "genre":
             Book.getBooksByGenre(filter, function (err,books) {
                 if(err) throw err;
-                //console.log("==================="+books);
                 var len = false;
                 if (books.length == 0){
                     len = true;
@@ -127,7 +118,6 @@ router.post('/',function (req,res) {
 });
 
 router.post('/addtocart', function (req, res) {
-    //console.log(req.cart);
     Cart.addBookToCart(cartMain._id, req.body.bookId, function (err, cart) {
         if(err) throw err;
         setTimeout( function () {

@@ -1,0 +1,103 @@
+<div class="container-fluid">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bookreaper-navbar" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand custom-navbar" href="/">BookReaper</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bookreaper-navbar">
+
+
+
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/about" class="glyphicon glyphicon-info-sign" data-toggle="tooltip"  title="About" > <span class="screen-reader-text"> about site </span></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.name}} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/profile">Profile</a></li>
+                            <li><a href="/account">Account</a></li>
+                            <li><a href="/orders">Orders</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div class="container-fluid">
+
+        <div class="row vdivide">
+            <div class="col-sm-2">
+                <div class="cart-img">
+                    <!-- <p> Cart </p>-->
+                    <img src="../img/cart.png">
+                </div>
+
+            </div>
+            <div class="col-sm-8">
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-center panel-heading">Items in Cart</div>
+
+                    <div class="panel-body">
+                        {{#if books}}
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Price</th>
+                                <th>Remove</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#each books}}
+                                <tr>
+                                    <td>{{title}}</td>
+                                    <td>$ {{price}}</td>
+                                    <td style="text-align: center"><a href="/cart/removeBook?index={{@index}}" class="glyphicon glyphicon-remove-circle" style="color: red"></a></td>
+                                </tr>
+                            {{/each}}
+                                <tr class="info">
+                                    <td>Total</td>
+                                    <td>$ {{total}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {{else}}
+                            <div>No items to show</div>
+                        {{/if}}
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-2">
+                {{#if books}}
+                <a class="btn btn-success btn-block" href="/payment">Buy Now</a>
+                {{/if}}
+                <a class="btn btn-primary btn-block" href="/shop">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+    <div class="hiddenForm">
+        <form method="post" action="/shop" id="filterForm">
+            <input type="text" id="filter" name="filter" value=""/>
+            <input type="text" id="criteria" name="criteria" value="title"/>
+        </form>
+        <form method="post" action="/shop/addtocart" id="addtocartForm">
+            <input type="text" id="bookId" name="bookId" value=""/>
+        </form>
+        <form method="get" action="/profile" id="refreshForm">
+            <input type="text" name="saved" value="true"/>
+        </form>
+    </div>
+</div>
